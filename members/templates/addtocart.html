@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards</title>
+    <style>
+        *, body {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: "Poppins";
+        }
+
+        body {
+            font: 1.6vh/2.4vh "Rubik", sans-serif;
+            color: var(--black);
+            background: var(--platinum);
+            margin: 2vh 0;
+        }
+
+        .container {
+            max-width: 96vw;
+            padding: 0 1.5vw;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3.2vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .product-card {
+            position: relative;
+            padding: 2vh;
+            background: #fff;
+            border-radius: 1.2vh;
+            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 15%);
+        }
+
+        .product-card h3 {
+            font-size: 2.4vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .image-container {
+            width: 100%;
+            height: 15vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 0.8vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card p {
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity {
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity input {
+            width: 80%;
+            height: 20%;
+            text-align: center;
+        }
+
+        .product-card .submit-button {
+            background-color: #FF4A67;
+            border: none;
+        }
+
+        .checkout-button {
+            padding: 1.5vh 3vh;
+            background: #FF4A67;
+            color: #fff;
+            border: none;
+            border-radius: 0.8vh;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 1vh;
+            right: 1vh;
+            padding: 0.5vh;
+            background-color: #FF4A67;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+{% include "nav-bar.html" %}
+<body>
+    <br> 
+    <div class="container">
+        <h2>Cart items</h2>
+        <div class="product-cards">
+            {% if not items %}
+            <div>Cart is empty</div>
+            {% else %}
+            {% for product in items %}
+                <div class="product-card">
+                    <button class="delete-button" onclick="deleteItem('{{ product.name }}') ">
+                        <i class="ri-delete-bin-line"></i>
+                    </button>
+                    <h3>{{ product.name }}</h3>
+                    <div class="image-container" style="background-image: url('{% static product.image %}')"></div>
+                    <p>{{ product.description }}</p>
+                    <p>TotalPrice: {{ product.price }}rs</p>
+                    <form class="quantity" method="POST" id="form-{{ product.name }}" >
+                        {% csrf_token %}
+                        <input type="number" id="quantity-{{ product.name }}" value="{{ product.quantity }}" min="0" max="{{ product.quantity }}" name="total-quantity">
+                        <input type="hidden" name="pname" value="{{ product.name }}">
+                        <button class="submit-button">
+                            <i class="ri-check-double-line"></i>
+                        </button>
+                    </form>
+                </div>
+            
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div style="position: absolute; right: 10vh;">
+        <div class="total-price">
+            Total Price: {{ totalprice }}rs
+        </div>
+        {% if totalprice > 100 %}
+        <button class="checkout-button" onclick="checkout()"> <a href="checkout/">Checkout</a></button>
+        {% else %}
+            <button class="checkout-button" disabled>Checkout</button>
+        {% endif %}
+       
+    </div>
+    <script>
+        const quantityInputs = document.querySelectorAll('.quantity input');
+
+        quantityInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                const maxQuantity = parseInt(input.getAttribute('max'));
+
+                if (parseInt(input.value) > maxQuantity) {
+                    alert('Product not available..');
+                    input.value = maxQuantity;
+                }
+            });
+        });
+
+        function deleteItem(name) {
+            const quantityInput = document.getElementById('quantity-' + name);
+            if (quantityInput) {
+                quantityInput.value = 0;
+                const form = document.getElementById('form-' + name);
+                if (form) {
+                    form.submit();
+                }
+            }
+        }
+        function refreshPage() {
+            location.reload();
+        }
+
+    </script>
+</body>
+</html>

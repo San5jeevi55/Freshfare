@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        //This redirects to the home page after 3000 millieseconds
+        window.setTimeout(function() {
+            window.location.href = "members";
+        }, 5000);
+    </script>
+    
+    <style>
+        
+        body {
+
+            background-color: #120439;
+            height: 100%;
+            font-family: "Poppins";
+            }
+
+        div {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bolder;
+            font-size: 10vh;
+            color: white;
+            text-align: center;
+        
+            text-transform: uppercase;
+        }
+
+        span {
+            border-right: .05em solid;
+            animation: caret 2s steps(1) infinite;
+        }
+
+        @keyframes caret {
+        50% {
+            border-color: transparent;
+        }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(event){
+        var dataText = [ "FRESHFARE", "HEALTH AT YOUR DOORSTEP"];
+        
+        function typeWriter(text, i, fnCallback) {
+            if (i < (text.length)) {
+            document.querySelector("div").innerHTML = text.substring(0, i+1) +'<span aria-hidden="true"></span>';
+            setTimeout(function() {
+                typeWriter(text, i + 1, fnCallback)
+            }, 100);
+            }
+            else if (typeof fnCallback == 'function') {
+            setTimeout(fnCallback,700);
+            }
+        }
+        function StartTextAnimation(i) {
+            if (typeof dataText[i] == 'undefined'){
+                setTimeout(function() {
+                StartTextAnimation(0);
+                }, 20000);
+            }
+            if (i < dataText[i].length) {
+            typeWriter(dataText[i], 0, function(){
+            StartTextAnimation(i + 1);
+            });
+            }
+        }
+        StartTextAnimation(0);
+        });
+    </script>
+</head>
+<body>
+    <div></div>
+    
+</body>
+</html>

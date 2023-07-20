@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/image-slider.css' %}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <title>HOME</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins';
+            font-weight: 400;
+
+        }
+        .nav-bar-left{
+            width: 40%;
+            margin-left:2vh ;
+        }
+        
+        .nav-bar{
+            background-color: #FF4A67;
+            display: flex;
+            width: 100%;
+            font-size: 1.8vh;
+           
+        
+        }
+        .nav-bar-right{
+            display: flex;
+            width: 60%;
+            justify-content: end;
+           
+        }
+        .items1-navbar{
+            padding: 15px 5px 15px 5px;
+            margin-right: 5vh;
+            color: white;
+            text-decoration: none ;
+            transition:color 1.2s;
+
+        }
+        .items1-navbar:hover {
+            animation-name: nav-bar-transition;
+            color:black;
+        }
+
+        a:link{
+            text-decoration: none;
+        }
+        .image-slider{
+            margin-bottom: 5vh;
+        }
+
+    </style>
+
+</head>
+
+{% csrf_token %}
+<div class="main-container-full-page">
+    {% include "nav-bar.html" %}
+    <div class="image-slider">
+        
+        <div class="image-slider">
+            <script src="{% static 'css/image-slider.js' %}"></script>
+
+            <div class="main-container-slides">
+                {% for slide in slides_queue %}
+                <div class="myslides {% if forloop.first %}grid-active{% endif %}">
+                    <div class="icon-left">
+                        <a href="#" onclick="plusSlides(-1)">
+                            <i class="ri-arrow-left-circle-fill icon-design"></i>
+                        </a>
+                    </div>
+                    <div class="text-side-container">
+                        <p style="font-size: 2.2vh;margin-bottom: 3vh;font-weight: 550;">{{ slide.title }}</p>
+                        <p style="font-size: 6.5vh;font-weight: 300;margin-bottom: 3vh;">{{ slide.subtitle }}</p>
+                        <p style="font-size: 3vh;margin-bottom: 1vh;">{{ slide.caption }}</p>
+                        <p style="font-size: 4vh;font-weight: lighter;margin-bottom: 2vh;">{{ slide.offer }}</p>
+                        <button class="buy-now-inside-slider">BUY NOW</button>
+                    </div>
+                    <div class="image-side-container" style="background-image: url('{% static slide.image %}');">
+                    </div>
+                    <div class="icon-right">
+                        <a href="#" onclick="plusSlides(1)">
+                            <i class="ri-arrow-right-circle-fill icon-design"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    
+        <div class="container">
+            {% include "dummy.html" %}
+        </div>
+        
+</div>
+
+<div class="bottom">
+    {% include "bottom-page-common.html " %}
+</div>
+
+</html>

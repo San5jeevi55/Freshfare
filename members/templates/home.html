@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <title>HOME</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins';
+            font-weight: 400;
+
+        }
+        .nav-bar-left{
+            width: 40%;
+            margin-left:2vh ;
+        }
+        
+        .nav-bar{
+            background-color: #FF4A67;
+            display: flex;
+            width: 100%;
+            font-size: 1.8vh;
+           
+        
+        }
+        .nav-bar-right{
+            display: flex;
+            width: 60%;
+            justify-content: end;
+           
+        }
+        .items1-navbar{
+            padding: 15px 5px 15px 5px;
+            margin-right: 5vh;
+            color: white;
+            
+            transition:color 1.2s;
+
+        }
+        .items1-navbar:hover {
+            animation-name: nav-bar-transition;
+            color:black;
+        }
+
+        
+
+    </style>
+</head>
+
+<div class="main-container-full-page">
+    <div class="main-container-nav-bar">
+        <div class="nav-bar">
+            <div class="nav-bar-left items1-navbar">
+                FRESHFARE
+            </div>
+            <div class="nav-bar-right">
+                <div class="items1-navbar">HOME </div>
+                <div class="items1-navbar">ABOUT</div>
+                <div class="items1-navbar"><a href="login/"> USERS LOGIN</a></div>
+                <div class="items1-navbar">VEGGIES</div>
+            </div>  
+            
+        </div>
+    </div>
+    <div class="main-container-slideshow"></div>
+    <div class="main-container-product">
+       
+    </div>
+</div>
+
+
+<div class="bottom">
+{% extends "bottom-page-common.html" %}
+</div>
+
+
+</html>

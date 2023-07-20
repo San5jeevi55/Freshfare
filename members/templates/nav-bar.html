@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" r el="stylesheet">
+{% load static %}
+    <title>HOME</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins';
+            font-weight: 400;
+        }
+
+        .nav-bar-left {
+            width: 40%;
+            margin-left: 2vh;
+        }
+
+        .nav-bar {
+            background-color: #FF4A67;
+            display: flex;
+            width: 100%;
+            font-size: 1.8vh;
+        }
+
+        .nav-bar-right {
+            display: flex;
+            width: 60%;
+            justify-content: flex-end;
+        }
+
+        .items1-navbar {
+            padding: 15px 5px 15px 5px;
+            margin-right: 2vh;
+            color: white;
+            transition: color 1.2s;
+        }
+
+        .items1-navbar:hover {
+            animation-name: nav-bar-transition;
+            color: black;
+        }
+
+
+
+        @keyframes nav-bar-transition {
+            0% {
+                color: white;
+            }
+
+            50% {
+                color: #FF4A67;
+            }
+
+            100% {
+                color: black;
+            }
+        }
+        .add-to-cart-icon {
+            display: flex;
+            align-items: center;
+            }
+
+        @media screen and (max-width: 700px) {
+            .items1-navbar {
+                display: none;
+            }
+
+            
+
+            
+            .add-to-cart-icon {
+                margin-left: 1vh;
+            }
+
+            .nav-text {
+                display: none;
+            }
+
+            .nav-bar-right .items1-navbar {
+                display: flex;
+                align-items: center;
+                padding: 5px;
+                color: white;
+                transition: color 1.2s;
+            }
+            
+            .nav-bar-right .items1-navbar:hover {
+                color: black;
+            }
+            }
+
+
+    .nav-bar div:hover{
+        color: black;
+
+    }
+    a{
+        color: white;
+        text-decoration: none;
+    }
+    </style>
+</head>
+
+<body>
+<div class="main-container-full-page">
+    <div class="main-container-nav-bar">
+        <div class="nav-bar">
+            <div class="nav-bar-left items1-navbar">
+                FRESHFARE
+            </div>
+            <div class="nav-bar-right">
+                <a href="{% url 'dashboard' %}">
+                <div class="items1-navbar">
+                    <i class="ri-home-2-line"></i>
+                    <span class="nav-text">HOME</span>
+                </div>
+                </a>
+                <div class="items1-navbar">
+                    <i class="ri-information-line"></i>
+                    <span class="nav-text">ABOUT</span>
+                </div>
+                <a href="login/" style="text-decoration: none;">
+                <div class="items1-navbar">
+                        <i class="ri-user-line" style="color: aliceblue;text-decoration: none;"></i>
+                        <span class="nav-text" style="color: white;text-decoration:none ;">{{ username }}</span>
+                    </div>
+                </a>
+                <a href="{% url 'veggies' %}">
+                <div class="items1-navbar">
+                    <i class="ri-price-tag-2-line"></i>
+
+                    <span class="nav-text">VEGGIES</span>
+                </div>
+                </a>
+                <div class="add-to-cart-icon">
+                    <a href="{% url 'add_cart' %}">
+                        <i class="ri-shopping-cart-line" style="color: white;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container-slideshow"></div>
+    <div class="main-container-product"></div>
+</div>
+
+<script>
+    function toggleSearch() {
+        const searchInput = document.querySelector('.search-input');
+        searchInput.classList.toggle('active');
+    }
+
+    function performSearch() {
+        const searchInput = document.querySelector('.search-input');
+        const searchTerm = searchInput.value;
+        // Perform search action here
+        console.log('Performing search:', searchTerm);
+    }
+</script>
+</body>
+</html>

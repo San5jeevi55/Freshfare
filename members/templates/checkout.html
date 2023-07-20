@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your CSS and other dependencies here -->
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <title>Product Cards</title>
+    <style>
+        *, body {
+            box-sizing: border-box;
+            padding: 0;
+            font-family: "Poppins";
+            margin: 0;
+        }
+
+        body {
+            font: 1.6vh/2.4vh "Rubik", sans-serif;
+            color: var(--black);
+            background: var(--platinum);
+            margin: 2vh 0;
+        }
+
+        .container {
+            max-width: 96vw;
+            padding: 0 1.5vw;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3.2vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(30vh, 1fr));
+            grid-gap: 2vh;
+        }
+
+        .product-card {
+            padding: 2vh;
+            background: #fff;
+            border-radius: 1.2vh;
+            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 15%);
+        }
+
+        .product-card h3 {
+            font-size: 2.4vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .image-container {
+            width: 100%;
+            height: 15vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 0.8vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card p {
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity {
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity input {
+            width: 80%;
+            height: 20%;
+            text-align: center;
+        }
+
+        .product-card .submit-button {
+            background-color: #FF4A67;
+            border: none;
+        }
+
+        .checkout-button {
+            padding: 1.5vh 3vh;
+            background: #FF4A67;
+            color: #fff;
+            border: none;
+            border-radius: 0.8vh;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+{% include "nav-bar.html" %}
+<body>
+    <br> 
+<form method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <h2>Order items</h2>
+        <div class="product-cards">
+            {% for product in items %}
+                <div class="product-card">
+                    <h3>{{ product.name }}</h3>
+                    <div class="image-container" style="background-image: url('{% static product.image %}')"></div>
+                    <p>{{ product.description }}</p>
+                    <p>Total Price: {{ product.price }}rs</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="position: absolute; right: 2vh; bottom: 2vh;">
+        <div class="total-price">
+            Total Price: {{ totalprice }}rs
+        </div>
+        {% if totalprice > 100 %}
+            <button class="checkout-button" onclick="checkout()">Place Order</button>
+        {% else %}
+            <button class="checkout-button" disabled>Checkout</button>
+        {% endif %}
+    </div>
+</form>
+</body>
+</html>

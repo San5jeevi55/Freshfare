@@ -1,0 +1,7 @@
+orderno,customer,list_of_orders,time_delivery,total_amount,status
+234,Sanjeevi N,"[['Broccoli', 0], ['Bell Pepper', 12], ['Watermelon', 14], ['Strawberries', 12], ['Apple', 10]]",morning,157.47,Delivered
+751,Sanjeevi N,"[['Broccoli', 100]]",morning,199.0,Delivered
+19,Sanjeevi N,"[['Watermelon', 100]]",morning,499.0,Delivered
+609,Sanjeevi N,"[['Strawberries', 100]]",morning,249.0,Delivered
+70,Sanjeevi N,"[['Strawberries', 8]]",morning,960.0,Delivered
+1106,Sanjeevi N,"[['Orange', 1], ['Grapes', 1], ['Watermelon', 1], ['Banana', 1]]",morning,248.0

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: "Poppins";
+        }
+
+        body {
+            font: 1.6vh/2.4vh "Rubik", sans-serif;
+            color: var(--black);
+            background: var(--platinum);
+            margin: 2vh 0;
+        }
+
+        .container {
+            max-width: 96vw;
+            padding: 0 1.5vw;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3.2vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .product-card {
+            padding: 2vh;
+            background: #fff;
+            border-radius: 1.2vh;
+            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 15%);
+        }
+
+        .product-card h3 {
+            font-size: 2.4vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .image-container {
+            width: 100%;
+            height: 15vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 0.8vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card p {
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity {
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity-container {
+            display: flex;
+            align-items: center;
+    
+        }
+
+        .product-card .quantity-container button {
+            padding: 0.8vh;
+            font-size: 1.6vh;
+            background: #FF4A67;
+            color: #fff;
+            border: none;
+            border-radius: 0.8vh;
+            cursor: pointer;
+            margin-left: 1vh;
+            margin-right: 1vh;
+        }
+
+        .product-card .quantity-container input {
+            width: 6vh;
+            height: 4vh;
+            text-align: center;
+        }
+
+        .product-card .submit-button {
+            background-color: #FF4A67;
+            border: none;
+            color: #fff;
+            padding: 1vh 2vh;
+            border-radius: 0.8vh;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    {% include "nav-bar-user.html" %}
+    <br>
+    <div class="container">
+        <h2>Product Cards</h2>
+        <div class="product-cards">
+            {% for product in items %}
+            <div class="product-card">
+                <h3>{{ product.name }}</h3>
+                <div class="image-container" style="background-image: url('{% static product.image %}')"></div>
+
+                <p>{{ product.description }}</p>
+                <p>Price: {{ product.price }}rs</p>
+                <p>Quantity: <span id="quantity-{{ product.name }}">{{ product.quantity }}</span></p>
+                <form class="quantity" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{product.category}}" name="pcategory">
+                    <input type="hidden" value="{{product.name}}" name="pname">
+                    <input type="hidden" value="{{product.price}}" name="pprice">
+                    <input type="hidden" value="{{product.description}}" name="pdescription">
+                    <input type="hidden" value="{{product.image}}" name="pimage">
+                    
+                    <div class="quantity-container">
+                        <button type="button" class="minus-button" onclick="updateQuantity('{{ product.name }}', -1)">-</button>
+                        
+                        <input type="number" id="quantity-input-{{ product.name }}" value="{{ product.quantity }}" min="0" name="total-quantity">
+                        <button type="button" class="plus-button" onclick="updateQuantity('{{ product.name }}', 1)">+</button>
+                    </div>
+                    <br>
+                    
+                    <button type="submit" class="submit-button">
+                        Update Quantity
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+    <script>
+        function updateQuantity(productName, increment) {
+            const quantityInput = document.getElementById('quantity-input-' + productName);
+            const quantityValue = parseInt(quantityInput.value);
+            const updatedQuantity = quantityValue + increment;
+            
+            if (updatedQuantity >= 0) {
+                quantityInput.value = updatedQuantity;
+                document.getElementById('quantity-' + productName).textContent = updatedQuantity;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: "Poppins";
+        }
+
+        body {
+            font: 1.6vh/2.4vh "Rubik", sans-serif;
+            color: var(--black);
+            background: var(--platinum);
+            margin: 2vh 0;
+        }
+
+        .container {
+            max-width: 96vw;
+            padding: 0 1.5vw;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3.2vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-cards {
+            display: flex;
+            padding: 2.5vh 0;
+            list-style: none;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .product-card {
+            flex: 0 0 calc(20% - 1vw);
+            max-width: calc(20% - 1vw);
+            margin-right: 1vw;
+            padding: 2vh;
+            background: #fff;
+            border-radius: 1.2vh;
+            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 15%);
+            scroll-snap-align: start;
+            transition: all 0.2s;
+        }
+
+        .product-card:not(:last-child) {
+            margin-right: 1vw;
+        }
+
+        .product-card h3 {
+            font-size: 2.4vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 15vh;
+            object-fit: cover;
+            border-radius: 0.8vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card p {
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity {
+            display: none; 
+            
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity input {
+            width:80%;
+            height: 20%;
+            text-align: center;
+        }
+
+        .product-card .button {
+            padding: 1.5vh 3vh;
+            background: #FF4A67;
+            color: #fff;
+            border: none;
+            border-radius: 0.8vh;
+            cursor: pointer;
+        }
+
+        .product-cards::-webkit-scrollbar {
+            height: 1.2vh;
+        }
+
+        .product-cards::-webkit-scrollbar-thumb,
+        .product-cards::-webkit-scrollbar-track {
+            border-radius: 9.2vh;
+        }
+
+        .product-cards::-webkit-scrollbar-thumb {
+            background: #ef233c;
+        }
+
+        .product-cards::-webkit-scrollbar-track {
+            background: #edf2f4;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 15vh;
+        }
+        .quantity{
+            display: flex;
+            
+
+        }
+        .submit-button{
+            background-color: #FF4A67;
+            border: none;
+
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Products</h2>
+        <ul class="product-cards">
+            {% for product in fruits %}
+            <li class="product-card">
+                <h3>{{ product.name }}</h3>
+                <div class="image-container" style="background-image: url('{% static product.image %}') ;background-size: contain;background-repeat:  no-repeat;text-align: center;"></div>
+
+                <p>{{ product.description }}</p>
+                <p>Price: {{ product.price }}rs</p>
+                <p>Quantity :{{product.quantity}}</p>
+                <form class="quantity" method="POST">
+                    {% csrf_token %}
+                    <input type="number" value="1" min="1" max="{{ product.quantity }}">
+                    <button class="submit-button" ><i class="ri-check-double-line" style="background: transparent;color: black;"></i></button>
+                </form>
+
+                <button onclick="toggleQuantity(this) " class="button">Add to Cart</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <script>
+        function toggleQuantity(button) {
+            const productCard = button.parentNode;
+            const quantityContainer = productCard.querySelector('.quantity');
+            if (quantityContainer.style.display === "none") {
+                quantityContainer.style.display = "flex";
+                button.style.display = "none";
+            } else {
+                quantityContainer.style.display = "none";
+                button.textContent = "Add to Cart";
+            }
+        }
+
+
+
+
+    </script>
+</body>
+</html>

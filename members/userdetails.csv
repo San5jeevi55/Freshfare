@@ -1,0 +1,8 @@
+username,password,name,address1,address2,pincode,mobile
+jane_smith,securepass,Jane Smith,456 Elm St,Apt 2C,67890,555-5678
+bob_johnson,mypassword,Bob Johnson,789 Oak St,Apt 5D,24680,555-9876
+sanjeevi555pn@gmail.com,1234,Sanjeevi N,4/627b,teachers colony,636701,9486988485
+sanjeevi555pn@gmail.com,1234,,,,,
+sanjeevi555pn@gmail.com,1234,Sanjeevi N,4/627b,teachers colony,636701,9486988485
+john_doe@gmail.com,password123,John Doe,123 Main St,Apt 4B,12345,555-1234
+client@gmail.com,clienthappy,,,,,

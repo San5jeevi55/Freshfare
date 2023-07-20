@@ -1,0 +1,15 @@
+category,name,description,price,quantity,image
+Fruits,Strawberries,Delicious and tangy berries,120,0,img/strawberries-image.jpeg
+Fruits,Bell Pepper,Colorful and flavorful,12,190,img/bell-pepper-image.png
+Fruits,Watermelon,Refreshing summer fruit,30,99,img/watermelon-image.png
+Fruits,Broccoli,Healthy and green,120,100,img/brocolli.jpeg
+Fruits,Cucumber,Cool and refreshing,80,100,img/cucumber-image.jpeg
+Fruits,Banana,Rich in potassium,20,7,img/banana-product.jpg
+Fruits,Orange,Juicy and refreshing,99,49,img/orange.jpeg
+Fruits,Grapes,Sweet and juicy grapes,99,99,img/grapes-image.png
+Fruits,Carrot,Crunchy and nutritious,29,20,img/carrot.jpeg
+Fruits,Tomato,Juicy and versatile,149,15,img/tomato-image.png
+Fruits,Pineapple,Tropical delight,99,101,img/pineapple-image.png
+Fruits,Spinach,Nutrient-packed leafy greens,19,6,img/spinach-image.png
+Fruits,Peach,Soft and fragrant fruit,100,1002,img/peach-image.png
+Fruits,Apple,A sweet and crispy fruit,100,200,img/apple-image.jpg

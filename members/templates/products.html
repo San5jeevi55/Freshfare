@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            font-family: "Poppins";
+            margin: 0;
+        }
+
+        body {
+            font: 1.6vh/2.4vh "Rubik", sans-serif;
+            color: var(--black);
+            background: var(--platinum);
+            margin: 2vh 0;
+        }
+
+        .container {
+            max-width: 96vw;
+            padding: 0 1.5vw;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3.2vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .product-card {
+            padding: 2vh;
+            background: #fff;
+            border-radius: 1.2vh;
+            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 15%);
+        }
+
+        .product-card h3 {
+            font-size: 2.4vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .image-container {
+            width: 100%;
+            height: 15vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 0.8vh;
+            margin-bottom: 1vh;
+        }
+
+        .product-card p {
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity {
+            display: none;
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+
+        .product-card .quantity input {
+            width: 80%;
+            height: 20%;
+            text-align: center;
+        }
+
+        .product-card .submit-button {
+            background-color: #FF4A67;
+            border: none;
+        }
+
+        .product-card .button {
+            padding: 1.5vh 3vh;
+            background: #FF4A67;
+            color: #fff;
+            border: none;
+            border-radius: 0.8vh;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    {% include "nav-bar.html" %}
+    <div style="display: flex; justify-content: space-between;">
+        <div style="display: inline-block;margin-top: -10vh;">{% include "lowtohigh.html" %}</div>
+        <div style="background-color: #FF4A67;display: inline-block;height:10vh;">{% include "search.html" %}</div>
+    </div>
+    
+    <div class="container">
+        <h2>Product Cards</h2>
+        <div class="product-cards">
+            {% if not items %}
+            <div>No products available</div>
+            {% else %}
+            {% for product in items %}
+            <div class="product-card">
+                <h3>{{ product.name }}</h3>
+                <div class="image-container" style="background-image: url('{% static product.image %}')"></div>
+
+                <p>{{ product.description }}</p>
+                <p>Price: {{ product.price }}rs</p>
+                <p>Quantity: {{ product.quantity }}</p>
+                <form class="quantity" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{product.category}}" name="pcategory">
+                    <input type="hidden" value="{{product.name}}" name="pname">
+                    <input type="hidden" value="{{product.price}}" name="pprice">
+                    <input type="hidden" value="{{product.description}}" name="pdescription">
+                    <input type="hidden" value="{{product.image}}" name="pimage">
+                    <input type="number" id="quantity-{{ product.name }}" value="1" min="1" max="{{ product.quantity }} " name="total-quantity">
+                    <button class="submit-button">
+                        <i class="ri-check-double-line"></i>
+                    </button>
+                </form>
+
+                <button onclick="toggleQuantity(this)" class="button">Add to Cart</button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% include "bottom-page-common.html" %}
+    <script>
+        function toggleQuantity(button) {
+            const productCard = button.parentNode;
+            const quantityContainer = productCard.querySelector('.quantity');
+            if (quantityContainer.style.display === "none") {
+                quantityContainer.style.display = "flex";
+                button.style.display = "none";
+            } else {
+                quantityContainer.style.display = "none";
+                button.textContent = "Add to Cart";
+            }
+        }
+
+
+
+    </script>
+        <script>
+            
+            const quantityInputs = document.querySelectorAll('.quantity input');
+    
+            quantityInputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    const maxQuantity = parseInt(input.max);
+    
+                    if (parseInt(input.value) > maxQuantity) {
+                        alert('Product not available..');
+    
+                        input.value = maxQuantity;
+                    }
+                });
+            });
+            
+            const quantityForm = document.getElementById('quantity-form');
+
+            quantityForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent form submission
+
+                const formData = new FormData(quantityForm);
+
+                fetch(quantityForm.action, {
+                    method: quantityForm.method,
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the server response if needed
+                    // You can update the page dynamically here
+                    // For example, update the total quantity or display a success message
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+
+        </script>
+</body>
+</html>

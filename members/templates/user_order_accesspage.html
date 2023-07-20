@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Order Access Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/css/remixicon.min.css">
+    <style>
+        /* Add your custom styles here */
+        *, body {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: "Poppins";
+        }
+
+        body {
+            font-family: "Rubik", sans-serif;
+            color: black;
+            background-color: #f7f7f7;
+            margin: 2vh 0;
+        }
+
+        .container {
+            max-width: 96vw;
+            padding: 0 1.5vw;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3.2vh;
+            margin-bottom: 1vh;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+            grid-gap: 2vh;
+            margin-top: 2vh;
+        }
+
+        .order-box {
+            padding: 2vh;
+            background-color: #fff;
+            border-radius: 1.2vh;
+            box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.15);
+        }
+
+        .order-box h3 {
+            font-size: 2.4vh;
+            margin-bottom: 1vh;
+        }
+
+        .order-box .image-container {
+            width: 100%;
+            height: 15vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 0.8vh;
+            margin-bottom: 1vh;
+        }
+
+        .order-box p {
+            margin-bottom: 1vh;
+        }
+
+        .order-box .quantity {
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+
+        .order-box .quantity input {
+            width: 80%;
+            height: 20%;
+            text-align: center;
+        }
+
+        .order-box .submit-button {
+            background-color: #FF4A67;
+            border: none;
+        }
+
+        .checkout-button {
+            padding: 1.5vh 3vh;
+            background: #FF4A67;
+            color: #fff;
+            border: none;
+            border-radius: 0.8vh;
+            cursor: pointer;
+        }
+
+        /* Add the new CSS class for product cards grid */
+        .product-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            grid-gap: 2rem;
+        }
+
+        .product-card {
+            position: relative;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 1.2rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .product-card:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Modified CSS for cus-details */
+        .cus-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 2rem;
+        }
+        button{
+            background-color: #FF4A67;
+            color: white;
+            padding: 2vh 2vh;
+            border: none;
+            border-radius: 2vh;
+            float: left;
+
+
+        }
+        button:hover{
+            border: #FF4A67 1px solid ;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h2>User Order Access Page</h2>
+    <div class="order-grid">
+        {% for order in orders %}
+            <div class="order-box">
+                <div class="cus-details">
+                    <div class="cus-details1">
+                        <h3>Order No: {{ order.order_num }}</h3>
+                        <p>Customer: {{ order.customer.name }}</p>
+                        <p>Time of Delivery: {{ order.time }}</p>
+                    </div>
+                    <div class="cus-details2">
+                        <h3>Customer Address</h3>
+                        <p>{{order.customer.address1}}</p>
+                        <p>{{order.customer.address2}}</p>
+                        <p>Mobile number:{{order.customer.mobile}}</p>
+                    </div>
+                </div>
+                <div class="product-cards-grid">
+                    {% for product in order.list_of_orders %}
+                        <div class="product-card">
+                            <h3>{{ product.name }}</h3>
+                            <div class="image-container" style="background-image: url('{% static product.image %}')"></div>
+                            <p>{{ product.description }}</p>
+                            <p>Quantity: {{ product.quantity }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <br>
+
+                <div style="text-align: center;">
+                <p style="display: inline-block;float: left;text-align: center;">Status :{{order.status}}</p><br>
+                    
+
+                <form  method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{order.order_num}}" name="order_num">
+                    <button type="submit">Mark as Delivered</button>
+                </form>
+                
+                <p style="background: #FF4A67;display: inline-block;color: white;padding:1.4vh;border-radius: 1.5vh;float: right;">Total Amount: <br> {{ order.total_amount }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>
